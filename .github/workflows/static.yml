@@ -23,16 +23,21 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
-      - name: Delete old artifacts  # Xóa artifacts cũ trước khi upload mới
-        uses: geekyeggo/delete-artifact@v2
-        with:
-          name: github-pages
+
+      - name: Install dependencies
+        run: npm install  # Hoặc yarn install
+
+      - name: Build project
+        run: npm run build  # Thay đổi nếu build bằng framework khác
+
+      - name: Check dist folder
+        run: ls -la ./dist  # Kiểm tra thư mục build
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './dist'  # Chỉ tải lên thư mục chứa nội dung tĩnh
+          path: './dist'  # Đảm bảo đúng thư mục build
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
